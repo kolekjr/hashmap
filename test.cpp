@@ -20,7 +20,7 @@ int main()
     map.insert(1, "First");
     map.insert(22, "Second");
  
-    std::string result = map.get(22);
+    std::string result = map.get(11);
 
     std::cout << "Result:" << result << std::endl;
 

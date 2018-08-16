@@ -5,6 +5,8 @@
 #include <cstddef>
 #include <stdexcept>
 
+
+
 template<class K, class V>
 class Map
 {
@@ -14,6 +16,8 @@ class Map
     virtual bool modify(K key, V value) = 0;
 };
 
+
+// Open hashing hash table.
 template<class K, class V, class F>
 class OHashMap : public Map<K, V>
 {
@@ -61,10 +65,8 @@ typename OHashMap<K, V, F>::Element** OHashMap<K, V, F>::searchChain(K key, unsi
 {
     Element *current = _table[hashValue];
     Element *prev = nullptr;
-    if (current == nullptr)
-        return nullptr;
 
-    while (current->next != nullptr)
+    while (current != nullptr)
     {
         if (current->key == key) {
             Element **e = new Element*[2];
@@ -73,7 +75,7 @@ typename OHashMap<K, V, F>::Element** OHashMap<K, V, F>::searchChain(K key, unsi
             return e;
         }
         prev = current;
-        current->next = current;
+        current = current->next;
     }
     return nullptr;
 }
@@ -82,10 +84,10 @@ template<class K, class V, class F>
 bool OHashMap<K, V, F>::insert(K key, V value)
 {
     unsigned hashValue = hash(key);
-    if(searchChain(key, hashValue) != nullptr)
-    {
-        return false;
-    }
+    // if(searchChain(key, hashValue) != nullptr)
+    // {
+    //     return false;
+    // }
     Element *e = new Element(key, value);
     e->next = _table[hashValue];
     _table[hashValue] = e;
